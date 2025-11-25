@@ -1,7 +1,11 @@
+import Hero from "./Hero";
+import Team from "./Team";
+
 function About() {
     return (
         <>
-            About
+            <Hero />
+            <Team />
         </>
     )
 }

@@ -1,9 +1,13 @@
+import Hero from "./Hero";
+import DropDownList from "./DropDownList";
+
 function Support() {
     return (
         <>
-            Support
+            <Hero />
+            <DropDownList />
         </>
-    )
+    );
 }
 
-export default Support
+export default Support;
