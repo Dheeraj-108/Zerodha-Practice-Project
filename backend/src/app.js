@@ -10,7 +10,10 @@ app.use(cookieParser());
 app.use(
     cors({
         methods: ["GET", "POST", "PUT", "DELETE"],
-        origin: ["https://dheeraj-goswami-zerodha.netlify.app"],
+        origin: [
+            "https://dheeraj-goswami-zerodha.netlify.app",
+            "https://dheeraj-goswami-zerodha-dashboard.netlify.app",
+        ],
         credentials: true,
     })
 );
