@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -55,7 +57,7 @@ export function HoldingsChart() {
     };
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/kite/holdings").then((res) => {
+        axios.get(`${API_URL}/api/v1/kite/holdings`).then((res) => {
             setHoldings(res.data);
         });
     }, []);

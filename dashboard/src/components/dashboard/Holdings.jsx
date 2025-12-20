@@ -2,11 +2,13 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Holdings() {
     const [holdings, setHoldings] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/kite/holdings").then((res) => {
+        axios.get(`${API_URL}/api/v1/kite/holdings`).then((res) => {
             setHoldings(res.data);
         });
     }, []);

@@ -3,6 +3,8 @@ import { Doughnut } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const generateColors = (count) => {
@@ -21,7 +23,7 @@ export function PositionChart() {
     const [positions, setPositions] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/kite/positions").then((res) => {
+        axios.get(`${API_URL}/api/v1/kite/positions`).then((res) => {
             setPositions(res.data);
         });
     }, []);

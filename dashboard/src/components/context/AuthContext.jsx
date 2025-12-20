@@ -3,6 +3,11 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+const FRONTEND_URL =
+    import.meta.env.VITE_FRONTEND_URL ||
+    "https://dheeraj-goswami-zerodha.netlify.app";
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -26,7 +31,7 @@ export const AuthProvider = ({ children }) => {
         const verifyUser = async () => {
             try {
                 const { data } = await axios.post(
-                    "http://localhost:8080/api/v1/kite/users/verify",
+                    `${API_URL}/api/v1/kite/users/verify`,
                     {},
                     { withCredentials: true }
                 );
@@ -55,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await axios.post(
-                "http://localhost:8080/api/v1/kite/users/logout",
+                `${API_URL}/api/v1/kite/users/logout`,
                 {},
                 {
                     withCredentials: true,
@@ -64,7 +69,7 @@ export const AuthProvider = ({ children }) => {
             removeCookie("accessToken");
             setUser(null);
             localStorage.removeItem("user");
-            navigate("/login");
+            window.location.href = `${FRONTEND_URL}/login`;
         } catch (error) {
             removeCookie("accessToken");
             setUser(null);

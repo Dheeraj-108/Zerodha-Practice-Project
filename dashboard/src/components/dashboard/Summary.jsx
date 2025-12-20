@@ -3,15 +3,15 @@ import axios from "axios";
 import { HoldingsChart } from "./HoldingsChart";
 import { PositionChart } from "./PositionChart";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Summary() {
     const [generalDetails, setGeneralDetails] = useState({});
 
     useEffect(() => {
-        axios
-            .get("http://localhost:8080/api/v1/kite/users/details")
-            .then((res) => {
-                setGeneralDetails(res.data);
-            });
+        axios.get(`${API_URL}/api/v1/kite/users/details`).then((res) => {
+            setGeneralDetails(res.data);
+        });
     }, []);
 
     return (

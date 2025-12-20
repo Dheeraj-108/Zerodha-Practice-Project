@@ -11,7 +11,7 @@ function BuySellPopUp({ stock, action, onClose, onOrderSuccess }) {
         console.log(`${action} ${quantity} shares of ${stock.name}`);
 
         axios
-            .post("http://localhost:8080/orders", {
+            .post(`${API_URL}/orders`, {
                 stock,
                 action,
                 quantity,

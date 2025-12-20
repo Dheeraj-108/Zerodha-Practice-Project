@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router";
 import AuthContext from "../../context/AuthContext.jsx";
 
+const DASHBOARD_URL = import.meta.env.VITE_DASHBOARD_URL;
+
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { user } = useContext(AuthContext);
@@ -28,7 +30,7 @@ function Navbar() {
                         <li className="cursor-pointer hover:text-blue-600 transition-colors duration-200">
                             {" "}
                             {user ? (
-                                <a href="http://localhost:5174" target="_blank">
+                                <a href={DASHBOARD_URL} target="_blank">
                                     Dashboard
                                 </a>
                             ) : (
@@ -70,7 +72,7 @@ function Navbar() {
                         <li className="px-6 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-200 border-b border-gray-100">
                             {" "}
                             {user ? (
-                                <a href="http://localhost:5174">Dashboard</a>
+                                <a href={DASHBOARD_URL}>Dashboard</a>
                             ) : (
                                 <Link to="/signup">Signup</Link>
                             )}

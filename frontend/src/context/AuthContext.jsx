@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
         const verifyUser = async () => {
             try {
                 const { data } = await axios.post(
-                    "http://localhost:8080/api/v1/kite/users/verify",
+                    `${API_URL}/api/v1/kite/users/verify`,
                     {},
                     { withCredentials: true }
                 );
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         try {
             const response = await axios.post(
-                "http://localhost:8080/api/v1/kite/users/login",
+                `${API_URL}/api/v1/kite/users/login`,
                 { email, password },
                 { withCredentials: true }
             );
@@ -83,7 +85,7 @@ export const AuthProvider = ({ children }) => {
     const signup = async (username, email, password) => {
         try {
             const response = await axios.post(
-                "http://localhost:8080/api/v1/kite/users/signup",
+                `${API_URL}/api/v1/kite/users/signup`,
                 { username, email, password },
                 { withCredentials: true }
             );
@@ -112,7 +114,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await axios.post(
-                "http://localhost:8080/api/v1/kite/users/logout",
+                `${API_URL}/api/v1/kite/users/logout`,
                 {},
                 { withCredentials: true }
             );
