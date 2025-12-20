@@ -2,7 +2,9 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router";
 import AuthContext from "../../context/AuthContext.jsx";
 
-const DASHBOARD_URL = import.meta.env.VITE_DASHBOARD_URL;
+const DASHBOARD_URL =
+    import.meta.env.VITE_DASHBOARD_URL ||
+    "https://dheeraj-goswami-zerodha-dashboard.netlify.app";
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +12,10 @@ function Navbar() {
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+    const handleDashboardRedirect = (e) => {
+        e.preventDefault();
+        window.location.href = DASHBOARD_URL;
     };
 
     return (
@@ -30,7 +36,11 @@ function Navbar() {
                         <li className="cursor-pointer hover:text-blue-600 transition-colors duration-200">
                             {" "}
                             {user ? (
-                                <a href={DASHBOARD_URL} target="_blank">
+                                <a
+                                    href={DASHBOARD_URL}
+                                    onClick={handleDashboardRedirect}
+                                    className="hover:text-red-500 font-medium"
+                                >
                                     Dashboard
                                 </a>
                             ) : (
@@ -72,7 +82,15 @@ function Navbar() {
                         <li className="px-6 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-200 border-b border-gray-100">
                             {" "}
                             {user ? (
-                                <a href={DASHBOARD_URL}>Dashboard</a>
+                                <a
+                                    href={DASHBOARD_URL}
+                                    onClick={(e) => {
+                                        handleDashboardRedirect(e);
+                                        setIsMenuOpen(false);
+                                    }}
+                                >
+                                    Dashboard
+                                </a>
                             ) : (
                                 <Link to="/signup">Signup</Link>
                             )}

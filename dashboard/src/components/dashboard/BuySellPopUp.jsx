@@ -8,8 +8,6 @@ function BuySellPopUp({ stock, action, onClose, onOrderSuccess }) {
     if (!stock) return null;
 
     const handleSubmit = () => {
-        console.log(`${action} ${quantity} shares of ${stock.name}`);
-
         axios
             .post(`${API_URL}/orders`, {
                 stock,
@@ -18,7 +16,6 @@ function BuySellPopUp({ stock, action, onClose, onOrderSuccess }) {
                 orderType,
             })
             .then((res) => {
-                console.log(res.data);
                 onOrderSuccess({ stock, action, quantity, orderType });
             });
         onClose();

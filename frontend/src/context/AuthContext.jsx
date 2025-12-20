@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
     const [cookies, removeCookie] = useCookies(["accessToken"]);
 
     useEffect(() => {
-        console.log("Cookies: ", cookies.accessToken);
         const verifyUser = async () => {
             try {
                 const { data } = await axios.post(

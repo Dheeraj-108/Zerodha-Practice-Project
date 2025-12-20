@@ -38,7 +38,6 @@ const options = {
 
 export function HoldingsChart() {
     const [holdings, setHoldings] = useState([]);
-    console.log(holdings);
 
     const data = {
         labels: holdings.map((holding) => holding.name),
