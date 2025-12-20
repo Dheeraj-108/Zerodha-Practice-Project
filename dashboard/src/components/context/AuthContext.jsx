@@ -3,7 +3,9 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://dheeraj-goswami-zerodha-backend.onrender.com";
 const FRONTEND_URL =
     import.meta.env.VITE_FRONTEND_URL ||
     "https://dheeraj-goswami-zerodha.netlify.app";

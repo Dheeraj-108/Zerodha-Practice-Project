@@ -4,7 +4,9 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://dheeraj-goswami-zerodha-backend.onrender.com";
 
 const AuthContext = createContext();
 
