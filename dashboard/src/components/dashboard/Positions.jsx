@@ -1,13 +1,22 @@
-import { positions } from "../../data.js";
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function Positions() {
+    const [positions, setPositions] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/kite/positions").then((res) => {
+            setPositions(res.data);
+        });
+    }, []);
     return (
         <>
             <div className="positions p-4 sm:p-6 lg:p-10 flex flex-col h-full">
                 <h1 className="text-xl sm:text-2xl font-semibold py-3 sm:py-5">
                     Positions
                 </h1>
-                <div className="positions-table overflow-x-auto">
+                <div className="positions-table overflow-x-auto overflow-y-auto max-h-[63vh]">
                     <table className="w-full lg:w-4/5 text-center mx-auto border-collapse text-xs sm:text-sm lg:text-base">
                         <thead className="border-b border-gray-200">
                             <tr className="divide-x divide-gray-200">
@@ -88,7 +97,15 @@ function Positions() {
                 <div className="positions-details mt-auto text-center">
                     <div className="positions-investment">
                         <h1 className="text-lg sm:text-xl font-semibold">
-                            29,875.33
+                            {positions
+                                .reduce(
+                                    (acc, stock) => acc + stock.avg * stock.qty,
+                                    0
+                                )
+                                .toLocaleString("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                })}
                         </h1>
                         <p className="text-sm sm:text-base text-gray-500">
                             Total Investment

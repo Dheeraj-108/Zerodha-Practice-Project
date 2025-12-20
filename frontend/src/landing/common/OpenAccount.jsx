@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 function OpenAccount() {
     return (
@@ -16,7 +17,7 @@ function OpenAccount() {
                         type="button"
                         className="px-8 py-2 bg-[rgb(56,126,209)] hover:bg-[rgb(46,106,189)] active:bg-[rgb(36,96,169)] text-white text-base sm:text-lg md:text-xl font-medium rounded shadow-md hover:shadow-lg transition-all duration-200 mt-2"
                     >
-                        Sign Up for Free
+                        <Link to="/signup">Sign Up for Free</Link>
                     </button>
                 </div>
             </div>

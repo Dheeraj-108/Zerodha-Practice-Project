@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router";
+import AuthContext from "./context/AuthContext";
 
 function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const { user, logout } = useContext(AuthContext);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const toggleProfileMenu = () => {
+        setIsProfileOpen(!isProfileOpen);
     };
 
     const menuItems = ["Dashboard", "Orders", "Positions", "Holdings", "Funds"];
@@ -37,7 +44,7 @@ function Navbar() {
                     </div>
 
                     <nav className="hidden lg:block">
-                        <ul className="flex gap-2 xl:gap-4">
+                        <ul className="flex gap-2 xl:gap-4 items-center">
                             {menuItems.map((item) => (
                                 <li
                                     key={item}
@@ -46,6 +53,40 @@ function Navbar() {
                                     <Link to={getRoutePath(item)}>{item}</Link>
                                 </li>
                             ))}
+                            <li className="relative">
+                                <div
+                                    className="flex items-center gap-2 cursor-pointer"
+                                    onClick={toggleProfileMenu}
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-semibold text-sm border border-blue-200">
+                                        {user?.username
+                                            ? user.username[0].toUpperCase()
+                                            : "U"}
+                                    </div>
+                                </div>
+
+                                {isProfileOpen && (
+                                    <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
+                                        <div className="px-4 py-3 border-b border-gray-100">
+                                            <p className="text-xs text-gray-500">
+                                                Signed in as
+                                            </p>
+                                            <p className="text-sm font-medium text-gray-900 truncate">
+                                                {user?.username || "User"}
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                logout();
+                                                setIsProfileOpen(false);
+                                            }}
+                                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 transition-colors"
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                )}
+                            </li>
                         </ul>
                     </nav>
 
@@ -97,6 +138,30 @@ function Navbar() {
                                 </Link>
                             </li>
                         ))}
+                        {/* Mobile Profile Section */}
+                        <li className="border-b border-gray-200 last:border-b-0 bg-gray-50">
+                            <div className="px-4 py-3">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-semibold text-sm border border-blue-200">
+                                        {user?.username
+                                            ? user.username[0].toUpperCase()
+                                            : "U"}
+                                    </div>
+                                    <span className="font-medium text-gray-900">
+                                        {user?.username}
+                                    </span>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        logout();
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    className="text-sm text-red-600 font-medium"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             )}

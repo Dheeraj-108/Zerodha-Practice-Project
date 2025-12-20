@@ -1,6 +1,16 @@
-import { holdings } from "../../data.js";
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function Holdings() {
+    const [holdings, setHoldings] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/kite/holdings").then((res) => {
+            setHoldings(res.data);
+        });
+    }, []);
+
     return (
         <>
             <div className="holdings p-4 sm:p-6 lg:p-10 flex flex-col h-full">
@@ -103,7 +113,15 @@ function Holdings() {
                 <div className="holdings-details flex flex-col sm:flex-row justify-around gap-4 sm:gap-0 mt-auto">
                     <div className="holdings-investment text-center">
                         <h1 className="text-lg sm:text-xl font-semibold">
-                            29,875.33
+                            {holdings
+                                .reduce(
+                                    (acc, stock) => acc + stock.avg * stock.qty,
+                                    0
+                                )
+                                .toLocaleString("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                })}
                         </h1>
                         <p className="text-sm sm:text-base text-gray-500">
                             Total Investment
@@ -111,7 +129,16 @@ function Holdings() {
                     </div>
                     <div className="holdings-curr-val text-center">
                         <h1 className="text-lg sm:text-xl font-semibold">
-                            31,875.33
+                            {holdings
+                                .reduce(
+                                    (acc, stock) =>
+                                        acc + stock.price * stock.qty,
+                                    0
+                                )
+                                .toLocaleString("en-IN", {
+                                    style: "currency",
+                                    currency: "INR",
+                                })}
                         </h1>
                         <p className="text-sm sm:text-base text-gray-500">
                             Current Value

@@ -1,0 +1,25 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "Backend written for the Zerodha Clone Website.",
+    "main": "./src/server.js",
+    "type": "module",
+    "scripts": {
+        "start": "nodemon ./src/server.js"
+    },
+    "author": "Dheeraj Goswami",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^6.0.0",
+        "body-parser": "^2.2.1",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "express": "^5.2.1",
+        "jsonwebtoken": "^9.0.3",
+        "mongoose": "^9.0.1",
+        "nodemon": "^3.1.11",
+        "passport": "^0.7.0",
+        "passport-local-mongoose": "^9.0.0"
+    }
+}

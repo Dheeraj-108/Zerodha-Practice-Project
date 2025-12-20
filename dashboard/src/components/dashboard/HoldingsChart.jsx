@@ -1,0 +1,63 @@
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from "chart.js";
+import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
+import axios from "axios";
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
+const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: {
+            position: "top",
+        },
+        title: {
+            display: true,
+            text: "Holdings",
+        },
+    },
+};
+
+export function HoldingsChart() {
+    const [holdings, setHoldings] = useState([]);
+    console.log(holdings);
+
+    const data = {
+        labels: holdings.map((holding) => holding.name),
+        datasets: [
+            {
+                label: "Investment",
+                data: holdings.map((holding) => holding.qty * holding.avg),
+                backgroundColor: "rgba(255, 99, 132, 0.5)",
+            },
+            {
+                label: "P/L",
+                data: holdings.map((holding) => holding.qty * holding.price),
+                backgroundColor: "rgba(53, 162, 235, 0.5)",
+            },
+        ],
+    };
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/kite/holdings").then((res) => {
+            setHoldings(res.data);
+        });
+    }, []);
+    return <Bar options={options} data={data} />;
+}
