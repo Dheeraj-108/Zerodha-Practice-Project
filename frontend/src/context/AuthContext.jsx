@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }) => {
             return null;
         }
     });
+    const [loading, setLoading] = useState(true);
     const [cookies, removeCookie] = useCookies(["accessToken"]);
 
     useEffect(() => {
@@ -37,11 +38,9 @@ export const AuthProvider = ({ children }) => {
                 );
 
                 if (data.status) {
-                    setUser({ username: data.user.username });
-                    localStorage.setItem(
-                        "user",
-                        JSON.stringify({ username: data.user.username })
-                    );
+                    const userData = { username: data.user.username };
+                    setUser(userData);
+                    localStorage.setItem("user", JSON.stringify(userData));
                 } else {
                     removeCookie("accessToken");
                     setUser(null);
@@ -51,6 +50,8 @@ export const AuthProvider = ({ children }) => {
                 removeCookie("accessToken");
                 setUser(null);
                 localStorage.removeItem("user");
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -135,7 +136,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, login, signup, logout }}>
+        <AuthContext.Provider
+            value={{ user, setUser, loading, login, signup, logout }}
+        >
             {children}
         </AuthContext.Provider>
     );

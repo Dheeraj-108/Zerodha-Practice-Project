@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router";
 import axios from "axios";
 
 const API_URL =
@@ -13,8 +12,6 @@ const FRONTEND_URL =
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const navigate = useNavigate();
-
     const [user, setUser] = useState(() => {
         const savedUser = localStorage.getItem("user");
         try {
@@ -27,6 +24,7 @@ export const AuthProvider = ({ children }) => {
             return null;
         }
     });
+    const [loading, setLoading] = useState(true);
     const [cookies, removeCookie] = useCookies(["accessToken"]);
 
     useEffect(() => {
@@ -39,11 +37,9 @@ export const AuthProvider = ({ children }) => {
                 );
 
                 if (data.status) {
-                    setUser({ username: data.user.username });
-                    localStorage.setItem(
-                        "user",
-                        JSON.stringify({ username: data.user.username })
-                    );
+                    const userData = { username: data.user.username };
+                    setUser(userData);
+                    localStorage.setItem("user", JSON.stringify(userData));
                 } else {
                     removeCookie("accessToken");
                     setUser(null);
@@ -53,6 +49,8 @@ export const AuthProvider = ({ children }) => {
                 removeCookie("accessToken");
                 setUser(null);
                 localStorage.removeItem("user");
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -81,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, logout }}>
+        <AuthContext.Provider value={{ user, setUser, loading, logout }}>
             {children}
         </AuthContext.Provider>
     );

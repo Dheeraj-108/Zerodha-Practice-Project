@@ -16,9 +16,12 @@ const signUp = async (req, res) => {
 
         const user = await User.create({ username, email, password });
         const token = generateToken(user);
+        const isProduction = process.env.NODE_ENV === "production";
         res.cookie("accessToken", token, {
             httpOnly: true,
-            secure: false, // Set to false for HTTP localhost
+            secure: isProduction,
+            sameSite: isProduction ? "None" : "Lax",
+            maxAge: 3600000, // 1 hour
         });
 
         res.status(201).json({
@@ -55,9 +58,12 @@ const login = async (req, res) => {
         }
 
         const token = generateToken(user);
+        const isProduction = process.env.NODE_ENV === "production";
         res.cookie("accessToken", token, {
             httpOnly: true,
-            secure: false, // Set to false for HTTP localhost
+            secure: isProduction,
+            sameSite: isProduction ? "None" : "Lax",
+            maxAge: 3600000, // 1 hour
         });
 
         res.status(200).json({
@@ -82,10 +88,11 @@ const generalDetails = async (_, res) => {
 };
 
 const logout = (req, res) => {
+    const isProduction = process.env.NODE_ENV === "production";
     res.clearCookie("accessToken", {
         httpOnly: true,
-        secure: false,
-        expiry: new Date(Date.now()),
+        secure: isProduction,
+        sameSite: isProduction ? "None" : "Lax",
     });
 
     res.status(200).json({
