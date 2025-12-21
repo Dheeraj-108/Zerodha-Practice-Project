@@ -2,6 +2,14 @@ import React from "react";
 import { Link } from "react-router";
 
 function Hero() {
+    const DASHBOARD_URL =
+        import.meta.env.VITE_DASHBOARD_URL ||
+        "https://dheeraj-goswami-zerodha-dashboard.netlify.app";
+
+    const handleSignupRedirect = (e) => {
+        e.preventDefault();
+        window.location.href = `${DASHBOARD_URL}/signup`;
+    };
     return (
         <div className="flex flex-col items-center justify-center py-10 mx-4 min-h-screen bg-white">
             <img
@@ -24,7 +32,9 @@ function Hero() {
                     type="button"
                     className="px-8 py-2 bg-[rgb(56,126,209)] hover:bg-[rgb(46,106,189)] active:bg-[rgb(36,96,169)] text-white text-base sm:text-lg md:text-xl font-medium rounded shadow-md hover:shadow-lg transition-all duration-200 mt-2"
                 >
-                    <Link to="/signup">Sign Up for Free</Link>
+                    <Link to="/signup" onClick={handleSignupRedirect}>
+                        Sign Up for Free
+                    </Link>
                 </button>
             </div>
         </div>

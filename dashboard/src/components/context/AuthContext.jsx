@@ -24,8 +24,8 @@ export const AuthProvider = ({ children }) => {
             return null;
         }
     });
-    const [loading, setLoading] = useState(true);
     const [cookies, removeCookie] = useCookies(["accessToken"]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const verifyUser = async () => {
@@ -57,6 +57,52 @@ export const AuthProvider = ({ children }) => {
         verifyUser();
     }, [cookies.accessToken, removeCookie]);
 
+    const login = async (email, password) => {
+        try {
+            const response = await axios.post(
+                `${API_URL}/api/v1/kite/users/login`,
+                { email, password },
+                { withCredentials: true }
+            );
+
+            if (response.data.success) {
+                const userData = response.data.user;
+                const userObj = { username: userData.username };
+                setUser(userObj);
+                localStorage.setItem("user", JSON.stringify(userObj));
+                return { success: true };
+            }
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response?.data?.message || "Login failed",
+            };
+        }
+    };
+
+    const signup = async (username, email, password) => {
+        try {
+            const response = await axios.post(
+                `${API_URL}/api/v1/kite/users/signup`,
+                { username, email, password },
+                { withCredentials: true }
+            );
+
+            if (response.data.success) {
+                const userData = response.data.user;
+                const userObj = { username: userData.username };
+                setUser(userObj);
+                localStorage.setItem("user", JSON.stringify(userObj));
+                return { success: true };
+            }
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response?.data?.message || "Signup failed",
+            };
+        }
+    };
+
     const logout = async () => {
         try {
             await axios.post(
@@ -79,7 +125,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, setUser, loading, logout }}>
+        <AuthContext.Provider
+            value={{ user, setUser, loading, logout, login, signup }}
+        >
             {children}
         </AuthContext.Provider>
     );

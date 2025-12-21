@@ -16,7 +16,9 @@ const signUp = async (req, res) => {
 
         const user = await User.create({ username, email, password });
         const token = generateToken(user);
-        const isProduction = process.env.NODE_ENV === "production";
+        const isProduction =
+            process.env.NODE_ENV === "production" ||
+            process.env.RENDER === "true";
         res.cookie("accessToken", token, {
             httpOnly: true,
             secure: isProduction,
@@ -58,7 +60,9 @@ const login = async (req, res) => {
         }
 
         const token = generateToken(user);
-        const isProduction = process.env.NODE_ENV === "production";
+        const isProduction =
+            process.env.NODE_ENV === "production" ||
+            process.env.RENDER === "true";
         res.cookie("accessToken", token, {
             httpOnly: true,
             secure: isProduction,
@@ -88,7 +92,9 @@ const generalDetails = async (_, res) => {
 };
 
 const logout = (req, res) => {
-    const isProduction = process.env.NODE_ENV === "production";
+    const isProduction =
+        process.env.NODE_ENV === "production" || process.env.RENDER === "true";
+    console.log(`Clearing cookie. Production: ${isProduction}`);
     res.clearCookie("accessToken", {
         httpOnly: true,
         secure: isProduction,
@@ -102,7 +108,13 @@ const logout = (req, res) => {
 };
 
 const userVerification = (req, res) => {
-    res.json({ status: true, user: req.user });
+    if (req.user) {
+        console.log(`User verified: ${req.user.username}`);
+        res.json({ status: true, user: req.user });
+    } else {
+        console.log("Verification failed: No user in request");
+        res.json({ status: false });
+    }
 };
 
 export { signUp, login, generalDetails, logout, userVerification };

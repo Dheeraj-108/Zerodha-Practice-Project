@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router";
-import AuthContext from "../../context/AuthContext.jsx";
 
 const DASHBOARD_URL =
     import.meta.env.VITE_DASHBOARD_URL ||
@@ -8,14 +7,14 @@ const DASHBOARD_URL =
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { user } = useContext(AuthContext);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-    const handleDashboardRedirect = (e) => {
+
+    const handleSignupRedirect = (e) => {
         e.preventDefault();
-        window.location.href = DASHBOARD_URL;
+        window.location.href = `${DASHBOARD_URL}/signup`;
     };
 
     return (
@@ -34,32 +33,23 @@ function Navbar() {
                 <div className="navbar-right hidden md:block">
                     <ul className="list-none flex gap-6 lg:gap-10 text-gray-600 text-sm lg:text-base">
                         <li className="cursor-pointer hover:text-blue-600 transition-colors duration-200">
-                            {" "}
-                            {user ? (
-                                <button
-                                    onClick={handleDashboardRedirect}
-                                    className="hover:text-red-500 font-medium"
-                                >
-                                    Dashboard
-                                </button>
-                            ) : (
-                                <Link to="/signup">Signup</Link>
-                            )}
+                            <button
+                                onClick={handleSignupRedirect}
+                                className="hover:text-red-500 font-medium"
+                            >
+                                Signup
+                            </button>
                         </li>
                         <li className="cursor-pointer hover:text-blue-600 transition-colors duration-200">
-                            {" "}
                             <Link to="/about">About</Link>
                         </li>
                         <li className="cursor-pointer hover:text-blue-600 transition-colors duration-200">
-                            {" "}
                             <Link to="/product">Products</Link>
                         </li>
                         <li className="cursor-pointer hover:text-blue-600 transition-colors duration-200">
-                            {" "}
                             <Link to="/pricing">Pricing</Link>
                         </li>
                         <li className="cursor-pointer hover:text-blue-600 transition-colors duration-200">
-                            {" "}
                             <Link to="/support">Support</Link>
                         </li>
                     </ul>
@@ -79,20 +69,14 @@ function Navbar() {
                 <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
                     <ul className="list-none flex flex-col text-gray-600">
                         <li className="px-6 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-200 border-b border-gray-100">
-                            {" "}
-                            {user ? (
-                                <a
-                                    href={DASHBOARD_URL}
-                                    onClick={(e) => {
-                                        handleDashboardRedirect(e);
-                                        setIsMenuOpen(false);
-                                    }}
-                                >
-                                    Dashboard
-                                </a>
-                            ) : (
-                                <Link to="/signup">Signup</Link>
-                            )}
+                            <button
+                                onClick={(e) => {
+                                    handleSignupRedirect(e);
+                                    setIsMenuOpen(false);
+                                }}
+                            >
+                                Signup
+                            </button>
                         </li>
                         <li className="px-6 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-200 border-b border-gray-100">
                             <Link to="/about">About</Link>
