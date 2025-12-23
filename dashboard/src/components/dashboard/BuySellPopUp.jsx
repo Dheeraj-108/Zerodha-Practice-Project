@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://dheeraj-goswami-zerodha-backend.onrender.com";
 
 function BuySellPopUp({ stock, action, onClose, onOrderSuccess }) {
     const [quantity, setQuantity] = useState(1);
@@ -66,7 +68,6 @@ function BuySellPopUp({ stock, action, onClose, onOrderSuccess }) {
 
                     <div className="px-4 sm:px-6 py-6">
                         <div className="space-y-4">
-                            {/* Order Type Toggle */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Order Type
