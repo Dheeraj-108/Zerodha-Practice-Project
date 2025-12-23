@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function BuySellPopUp({ stock, action, onClose, onOrderSuccess }) {
     const [quantity, setQuantity] = useState(1);
     const [orderType, setOrderType] = useState("Intraday");
@@ -9,7 +11,7 @@ function BuySellPopUp({ stock, action, onClose, onOrderSuccess }) {
 
     const handleSubmit = () => {
         axios
-            .post(`${API_URL}/orders`, {
+            .post(`${API_URL}/api/v1/kite/orders`, {
                 stock,
                 action,
                 quantity,
