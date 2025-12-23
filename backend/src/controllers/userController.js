@@ -23,7 +23,7 @@ const signUp = async (req, res) => {
             httpOnly: true,
             secure: isProduction,
             sameSite: isProduction ? "None" : "Lax",
-            maxAge: 3600000, // 1 hour
+            maxAge: 3600000,
         });
 
         res.status(201).json({
@@ -67,7 +67,7 @@ const login = async (req, res) => {
             httpOnly: true,
             secure: isProduction,
             sameSite: isProduction ? "None" : "Lax",
-            maxAge: 3600000, // 1 hour
+            maxAge: 3600000,
         });
 
         res.status(200).json({
